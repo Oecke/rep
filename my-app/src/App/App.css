@@ -1,0 +1,56 @@
+.field {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 480px;
+    height: 480px;
+    border: 4px solid #7a4b1e;
+    box-shadow: 0 4px 24px #0002;
+    margin: 20px auto;
+}
+
+.field-item_white, .field-item_black {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    user-select: none;
+}
+
+.field-item_white {
+    background-color: #ffd298;
+}
+
+.field-item_black {
+    background-color: #704015;
+}
+
+.Checkers_white, .Checkers_black {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px #0003;
+}
+
+.Checkers_white {
+    background: linear-gradient(145deg, #fffbe6 60%, #e2c48a 100%);
+    border: 2px solid #e2c48a;
+}
+
+.Checkers_black {
+    background: linear-gradient(145deg, #5a3a1a 60%, #a67c52 100%);
+    border: 2px solid #a67c52;
+}
+
+.chess-figure {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
