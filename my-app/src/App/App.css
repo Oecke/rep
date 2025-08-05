@@ -54,3 +54,10 @@
     align-items: center;
     justify-content: center;
 }
+
+.selected {
+    box-shadow: 0 0 0 3px #00f inset;
+}
+.possible-move {
+    box-shadow: 0 0 0 3px #0a0 inset;
+}

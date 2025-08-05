@@ -1,80 +1,138 @@
+import React, { useState, useEffect } from "react";
 import ChessFigure from "./ChessFigure";
 import CheckersFigure from "./CherckersFigure";
 
 const Board = () => {
-    // Создаем массив фигур по индексам
-    const figures = Array(64).fill(null);
+    const [figures, setFigures] = useState(Array(64).fill(null));
+    const [selected, setSelected] = useState(null);
+    const [possibleMoves, setPossibleMoves] = useState([]);
+    
+    const [isCheckersWhiteBottom, setIsCheckersWhiteBottom] = useState(true);
 
-    // Расставляем шахматные фигуры
-    const placeChessFigures = (color) => {
-        if (color === 'white') {
-            figures[0] = <ChessFigure type="wrook" color="white" />;
-            figures[1] = <ChessFigure type="wknight" color="white" />;
-            figures[2] = <ChessFigure type="wbishop" color="white" />;
-            figures[3] = <ChessFigure type="wqueen" color="white" />;
-            figures[4] = <ChessFigure type="wking" color="white" />;
-            figures[5] = <ChessFigure type="wbishop" color="white" />;
-            figures[6] = <ChessFigure type="wknight" color="white" />;
-            figures[7] = <ChessFigure type="wrook" color="white" />;
+    useEffect(() => {
+        const arr = Array(64).fill(null);
+
+        if (isCheckersWhiteBottom) {
+            
+            arr[0] = { type: "chess", figure: "brook", color: "black" };
+            arr[1] = { type: "chess", figure: "bknight", color: "black" };
+            arr[2] = { type: "chess", figure: "bbishop", color: "black" };
+            arr[3] = { type: "chess", figure: "bqueen", color: "black" };
+            arr[4] = { type: "chess", figure: "bking", color: "black" };
+            arr[5] = { type: "chess", figure: "bbishop", color: "black" };
+            arr[6] = { type: "chess", figure: "bknight", color: "black" };
+            arr[7] = { type: "chess", figure: "brook", color: "black" };
             for (let i = 8; i < 16; i++) {
-                figures[i] = <ChessFigure type="wpawn" color="white" />;
+                arr[i] = { type: "chess", figure: "bpawn", color: "black" };
             }
-        } else if (color === 'black') {
-            figures[56] = <ChessFigure type="brook" color="black" />;
-            figures[57] = <ChessFigure type="bknight" color="black" />;
-            figures[58] = <ChessFigure type="bbishop" color="black" />;
-            figures[59] = <ChessFigure type="bqueen" color="black" />;
-            figures[60] = <ChessFigure type="bking" color="black" />;
-            figures[61] = <ChessFigure type="bbishop" color="black" />;
-            figures[62] = <ChessFigure type="bknight" color="black" />;
-            figures[63] = <ChessFigure type="brook" color="black" />;
+
+            
+            const placeCheckers = (rows) => {
+                for (let row of rows) {
+                    for (let col = 0; col < 8; col++) {
+                        if ((row + col) % 2 === 0) {
+                            arr[row * 8 + col] = { type: "checker", color: "white" };
+                        }
+                    }
+                }
+            };
+            placeCheckers([5, 6, 7]);
+        } else {
+            
+            arr[56] = { type: "chess", figure: "wrook", color: "white" };
+            arr[57] = { type: "chess", figure: "wknight", color: "white" };
+            arr[58] = { type: "chess", figure: "wbishop", color: "white" };
+            arr[59] = { type: "chess", figure: "wqueen", color: "white" };
+            arr[60] = { type: "chess", figure: "wking", color: "white" };
+            arr[61] = { type: "chess", figure: "wbishop", color: "white" };
+            arr[62] = { type: "chess", figure: "wknight", color: "white" };
+            arr[63] = { type: "chess", figure: "wrook", color: "white" };
             for (let i = 48; i < 56; i++) {
-                figures[i] = <ChessFigure type="bpawn" color="black" />;
+                arr[i] = { type: "chess", figure: "wpawn", color: "white" };
             }
-        }
-    };
 
-    const placeCheckersFigures = (color) => {
-        if (color === 'white') {
-            const rows = [0, 1, 2];
-            for (let row of rows) {
-                for (let col = 0; col < 8; col++) {
-                    if ((row + col) % 2 === 0) {
-                        figures[row * 8 + col] = <CheckersFigure color="white" className="Checkers_white" />;
+            const placeCheckers = (rows) => {
+                for (let row of rows) {
+                    for (let col = 0; col < 8; col++) {
+                        if ((row + col) % 2 === 0) {
+                            arr[row * 8 + col] = { type: "checker", color: "black" };
+                        }
                     }
                 }
-            }
-        } else if (color === 'black') {
-            const rows = [5, 6, 7];
-            for (let row of rows) {
-                for (let col = 0; col < 8; col++) {
-                    if ((row + col) % 2 === 0) {
-                        figures[row * 8 + col] = <CheckersFigure color="black" className="Checkers_black" />;
-                    }
-                }
-            }
+            };
+            placeCheckers([0, 1, 2]);
         }
-    };
-
-    placeCheckersFigures('black');
-    placeChessFigures('white');
+        setFigures(arr);
+        setSelected(null);
+        setPossibleMoves([]);
+    }, [isCheckersWhiteBottom]);
 
     const fields = [];
     for (let i = 0; i < 64; i++) {
         const row = Math.floor(i / 8);
         const col = i % 8;
         const isWhite = (row + col) % 2 ? 'white' : 'black';
+        const isSelected = selected === i;
+        const isMove = possibleMoves.includes(i);
+
+        let cellClass = `field-item_${isWhite}`;
+        if (isSelected) cellClass += " selected";
+        if (isMove) cellClass += " possible-move";
+
+        const handleCellClick = (index) => {
+            if (possibleMoves.includes(index) && selected !== null) {
+                const newFigures = [...figures];
+                newFigures[index] = newFigures[selected];
+                newFigures[selected] = null;
+                setFigures(newFigures);
+                setSelected(null);
+                setPossibleMoves([]);
+            }
+        };
+
         fields.push(
-            <div key={i} className={`field-item_${isWhite}`} id={i + 1 + "-field-item"}>
-                {figures[i]}
+            <div
+                key={i}
+                className={cellClass}
+                id={i + 1 + "-field-item"}
+                onClick={() => handleCellClick(i)}
+            >
+                {figures[i]?.type === "checker" &&
+                    <CheckersFigure
+                        color={figures[i].color}
+                        className={figures[i].color === "white" ? "Checkers_white" : "Checkers_black"}
+                        index={i}
+                        figures={figures}
+                        setFigures={setFigures}
+                        selected={selected}
+                        setSelected={setSelected}
+                        possibleMoves={possibleMoves}
+                        setPossibleMoves={setPossibleMoves}
+                    />
+                }
+                {figures[i]?.type === "chess" &&
+                    <ChessFigure
+                        type={figures[i].figure}
+                        color={figures[i].color}
+                    />
+                }
             </div>
         );
     }
 
     return (
-        <div className="field">
-            {fields}
-        </div>
+        <>
+            <div className="field">
+                {fields}
+            </div>
+            <div style={{ textAlign: "center", marginTop: 16 }}>
+                <button onClick={() => setIsCheckersWhiteBottom(v => !v)}>
+                    {isCheckersWhiteBottom
+                        ? "білі шашки"
+                        : "чорні шашки"}
+                </button>
+            </div>
+        </>
     );
 };
 
