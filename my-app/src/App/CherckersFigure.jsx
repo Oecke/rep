@@ -4,7 +4,6 @@ const CheckersFigure = ({ className, color, index, figures, selected, setSelecte
         const row = Math.floor(position / 8);
         const col = position % 8;
         
-
         const directions = isWhite ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]];
         
 
