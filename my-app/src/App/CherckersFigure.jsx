@@ -1,4 +1,4 @@
-const CheckersFigure = ({ className, color, index, figures, selected, setSelected, setPossibleMoves }) => {
+const CheckersFigure = ({ className, color, index, figures, selected, setSelected, setPossibleMoves, currentTurn }) => {
     const getCheckerMoves = (position, isWhite, boardState) => {
         const moves = [];
         const row = Math.floor(position / 8);
@@ -53,8 +53,11 @@ const CheckersFigure = ({ className, color, index, figures, selected, setSelecte
         return moves;
     };
 
-    const handleClick = (e) => {
-        e.stopPropagation();
+    const handleClick = () => {
+        if (currentTurn !== 'checker') {
+            return;
+        }
+
         if (selected === index) {
             setSelected(null);
             setPossibleMoves([]);

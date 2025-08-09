@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ChessFigure from "./ChessFigure";
 import CheckersFigure from "./CherckersFigure";
 
@@ -7,6 +7,7 @@ const Board = () => {
     const [selected, setSelected] = useState(null);
     const [possibleMoves, setPossibleMoves] = useState([]);
     const [isCheckersWhiteBottom, setIsCheckersWhiteBottom] = useState(true);
+    const [currentTurn, setCurrentTurn] = useState('chess'); 
 
     useEffect(() => {
         const arr = Array(64).fill(null);
@@ -41,21 +42,38 @@ const Board = () => {
     }, [isCheckersWhiteBottom]);
 
     const handleCellClick = (index) => {
+        
+        if (
+            figures[index] &&
+            (
+                (currentTurn === 'chess' && figures[index].type === 'chess') ||
+                (currentTurn === 'checker' && figures[index].type === 'checker')
+            )
+        ) {
+            setSelected(index);
+          
+            return;
+        }
+
         const moveInfo = possibleMoves.find(move => move.targetPos === index);
         if (moveInfo && selected !== null) {
             const newFigures = [...figures];
 
+
             newFigures[index] = newFigures[selected];
             newFigures[selected] = null;
-            
+
 
             if (moveInfo.capturePos !== undefined) {
                 newFigures[moveInfo.capturePos] = null;
             }
-            
+
             setFigures(newFigures);
             setSelected(null);
             setPossibleMoves([]);
+
+  
+            setCurrentTurn(currentTurn === 'chess' ? 'checker' : 'chess');
         }
     };
 
@@ -84,6 +102,7 @@ const Board = () => {
                                     setSelected={setSelected}
                                     possibleMoves={possibleMoves}
                                     setPossibleMoves={setPossibleMoves}
+                                    currentTurn={currentTurn}
                                 />
                             )}
                             {figures[i]?.type === "chess" && (
@@ -95,6 +114,7 @@ const Board = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                     setPossibleMoves={setPossibleMoves}
+                                    currentTurn={currentTurn}
                                 />
                             )}
                         </div>
@@ -102,6 +122,9 @@ const Board = () => {
                 })}
             </div>
             <div style={{ textAlign: "center", marginTop: 16 }}>
+                <div style={{ marginBottom: 10 }}>
+                    Ход: {currentTurn === 'chess' ? 'Шахмати' : 'Шашки'}
+                </div>
                 <button onClick={() => setIsCheckersWhiteBottom(v => !v)}>
                     {isCheckersWhiteBottom ? "Білі шашки" : "Чорні шашки"}
                 </button>
