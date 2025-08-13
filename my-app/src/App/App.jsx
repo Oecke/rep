@@ -4,8 +4,10 @@ import './App.css';
 
 const App = () => {
   return (
-    <div>
-      <Board />
+    <div className="app">
+      <main className="app-main">
+        <Board />
+      </main>
     </div>
   )
 }

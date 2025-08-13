@@ -4,6 +4,7 @@ const ChessFigure = ({ type, color, index, figures, selected, setSelected, setPo
     const moves = [];
     const row = Math.floor(position / 8);
     const col = position % 8;
+    
     const addMove = (newRow, newCol) => {
       if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
         const newPos = newRow * 8 + newCol;
@@ -13,16 +14,17 @@ const ChessFigure = ({ type, color, index, figures, selected, setSelected, setPo
       }
     };
 
-
     if (type.endsWith('pawn')) {
       const direction = color === 'white' ? -1 : 1;
       const startRow = color === 'white' ? 6 : 1;
+      
       if (!figures[(row + direction) * 8 + col]) {
         addMove(row + direction, col);
         if (row === startRow && !figures[(row + direction * 2) * 8 + col]) {
           addMove(row + direction * 2, col);
         }
       }
+      
       [-1, 1].forEach(offset => {
         const newCol = col + offset;
         const newRow = row + direction;
@@ -34,6 +36,7 @@ const ChessFigure = ({ type, color, index, figures, selected, setSelected, setPo
         }
       });
     }
+    
     if (type.endsWith('knight')) {
       const knightMoves = [
         [-2, -1], [-2, 1], [-1, -2], [-1, 2],
@@ -41,6 +44,7 @@ const ChessFigure = ({ type, color, index, figures, selected, setSelected, setPo
       ];
       knightMoves.forEach(([dr, dc]) => addMove(row + dr, col + dc));
     }
+    
     if (type.endsWith('bishop')) {
       const directions = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
       directions.forEach(([dr, dc]) => {
@@ -60,6 +64,7 @@ const ChessFigure = ({ type, color, index, figures, selected, setSelected, setPo
         }
       });
     }
+    
     if (type.endsWith('rook')) {
       const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       directions.forEach(([dr, dc]) => {
@@ -79,6 +84,7 @@ const ChessFigure = ({ type, color, index, figures, selected, setSelected, setPo
         }
       });
     }
+    
     if (type.endsWith('queen')) {
       const directions = [
         [-1, -1], [-1, 0], [-1, 1],
@@ -102,6 +108,7 @@ const ChessFigure = ({ type, color, index, figures, selected, setSelected, setPo
         }
       });
     }
+    
     if (type.endsWith('king')) {
       const directions = [
         [-1, -1], [-1, 0], [-1, 1],
@@ -110,11 +117,11 @@ const ChessFigure = ({ type, color, index, figures, selected, setSelected, setPo
       ];
       directions.forEach(([dr, dc]) => addMove(row + dr, col + dc));
     }
+    
     return moves;
   };
 
   const handleClick = () => {
-    
     if (currentTurn !== 'chess') return;
 
     if (selected === index) {
@@ -122,6 +129,7 @@ const ChessFigure = ({ type, color, index, figures, selected, setSelected, setPo
       setPossibleMoves([]);
       return;
     }
+    
     const moves = getChessMoves(index);
     setSelected(index);
     setPossibleMoves(moves);

@@ -6,6 +6,16 @@ const CheckersFigure = ({ className, color, index, figures, selected, setSelecte
         
         const directions = isWhite ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]];
         
+        directions.forEach(([dr, dc]) => {
+            const newRow = row + dr;
+            const newCol = col + dc;
+            if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+                const newPos = newRow * 8 + newCol;
+                if (!boardState[newPos]) {
+                    moves.push({ targetPos: newPos });
+                }
+            }
+        });
 
         const captureDirections = [
             [-1, -1], [-1, 0], [-1, 1],  
@@ -13,37 +23,22 @@ const CheckersFigure = ({ className, color, index, figures, selected, setSelecte
             [1, -1],  [1, 0],  [1, 1]
         ];
         
-
-        directions.forEach(([dr, dc]) => {
-            const newRow = row + dr;
-            const newCol = col + dc;
-            if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-                const newPos = newRow * 8 + newCol;
-                if (!boardState[newPos]) {
-                    moves.push(newPos);
-                }
-            }
-        });
-
         captureDirections.forEach(([dr, dc]) => {
             let newRow = row + dr;
             let newCol = col + dc;
             
-           
             if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
                 const jumpOverPos = newRow * 8 + newCol;
                 const pieceToJump = boardState[jumpOverPos];
                 
-              
                 if (pieceToJump && pieceToJump.type === 'chess') {
                     newRow = row + dr * 2;
                     newCol = col + dc * 2;
                     
-                  
                     if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
                         const landingPos = newRow * 8 + newCol;
                         if (!boardState[landingPos]) {
-                            moves.push(landingPos);
+                            moves.push({ targetPos: landingPos, capturePos: jumpOverPos });
                         }
                     }
                 }
@@ -65,25 +60,8 @@ const CheckersFigure = ({ className, color, index, figures, selected, setSelecte
         }
       
         const moves = getCheckerMoves(index, color === "white", figures);
-        
-
-        const movesWithCaptures = moves.map(targetPos => {
-            const startRow = Math.floor(index / 8);
-            const startCol = index % 8;
-            const endRow = Math.floor(targetPos / 8);
-            const endCol = targetPos % 8;
-            
-            if (Math.abs(endRow - startRow) === 2 || Math.abs(endCol - startCol) === 2) {
-                const jumpRow = (startRow + endRow) / 2;
-                const jumpCol = (startCol + endCol) / 2;
-                const jumpPos = Math.floor(jumpRow * 8 + jumpCol);
-                return { targetPos, capturePos: jumpPos };
-            }
-            return { targetPos };
-        });
-
         setSelected(index);
-        setPossibleMoves(movesWithCaptures);
+        setPossibleMoves(moves);
     };
 
     return (

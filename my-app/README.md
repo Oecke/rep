@@ -1,70 +1,119 @@
-# Getting Started with Create React App
+# 🎮 Шашки vs Шахмати
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Це унікальна гра, де шашки та шахмати змагаються на одній дошці! Грайте в дві класичні настільні ігри одночасно.
 
-## Available Scripts
+## ✨ Особливості
 
-In the project directory, you can run:
+- **Гібридна гра**: Шашки та шахмати на одній дошці
+- **Умови перемоги**: Чіткі правила завершення гри
+- **Сучасний інтерфейс**: Красивий дизайн з анімаціями
+- **Адаптивність**: Працює на всіх пристроях
+- **Статистика**: Відстеження ходів та захоплених фігур
 
-### `npm start`
+## 🎯 Правила гри
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Умови поразки шахмат:
+- Король знищений
+- Залишилося менше 2 фігур (тільки король)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Умови поразки шашок:
+- Всі шашки знищені
+- Немає можливих ходів
 
-### `npm test`
+### Додаткові правила:
+- Гра закінчується нічиєю після 100 ходів
+- Шашки можуть захоплювати шахові фігури
+- Шахові фігури можуть захоплювати шашки
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Запуск проекту
 
-### `npm run build`
+1. **Встановлення залежностей:**
+   ```bash
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Запуск додатку:**
+   ```bash
+   npm start
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. **Відкрийте браузер:**
+   ```
+   http://localhost:3000
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠️ Технології
 
-### `npm run eject`
+- **React 19** - сучасна бібліотека для створення інтерфейсів
+- **CSS3** - сучасні стилі з градієнтами та анімаціями
+- **JavaScript ES6+** - сучасний синтаксис
+- **Grid CSS** - для створення ігрового поля
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📱 Адаптивність
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Гра автоматично адаптується до різних розмірів екрану:
+- **Desktop**: Повнорозмірна дошка 560x560px
+- **Tablet**: Дошка 320x320px
+- **Mobile**: Дошка 280x280px
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🎨 Особливості дизайну
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **Градієнтні фони** з сучасними кольорами
+- **Тіні та ефекти** для глибини
+- **Hover анімації** для інтерактивності
+- **Backdrop blur** ефекти
+- **Плавні переходи** між станами
 
-## Learn More
+## 🎮 Керування
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Клік** на фігуру для вибору
+- **Клік** на зелену клітинку для ходу
+- **Кнопка "Нова гра"** для скидання
+- **Кнопка перемикання** для зміни позиції шашок
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🔧 Структура проекту
 
-### Code Splitting
+```
+src/
+├── App/
+│   ├── App.jsx          # Головний компонент
+│   ├── App.css          # Стилі додатку
+│   ├── Board.jsx        # Ігрова дошка
+│   ├── ChessFigure.jsx  # Шахові фігури
+│   └── CherckersFigure.jsx # Шашки
+├── index.js             # Точка входу
+└── index.css            # Глобальні стилі
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🎯 Логіка гри
 
-### Analyzing the Bundle Size
+### Шашки:
+- Рухаються по діагоналі вперед
+- Можуть захоплювати шахові фігури
+- Перестрибують через ворожі фігури
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Шахмати:
+- Кожна фігура має свої правила руху
+- Можуть захоплювати шашки
+- Звичайні правила шахів
 
-### Making a Progressive Web App
+## 🚀 Розвиток проекту
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Можливі покращення:
+- [ ] Звукові ефекти
+- [ ] Збереження прогресу
+- [ ] Багатокористувацька гра
+- [ ] Різні рівні складності
+- [ ] Турнірна таблиця
 
-### Advanced Configuration
+## 📄 Ліцензія
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Цей проект створено для навчальних цілей.
 
-### Deployment
+## 👥 Автор
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Створено з ❤️ для любителів настільних ігор.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Насолоджуйтесь грою! 🎲**
